@@ -66,17 +66,28 @@ public class MainActivity extends AppCompatActivity {
                     makeACallWithPermissions();
                 } else {
 
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                             Manifest.permission.CALL_PHONE)) {
 
-                        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        new AlertDialog.Builder(this)
+                                .setMessage("提示用户为何要开启此权限")
+                                .setPositiveButton("知道了", (dialog, which) ->
+                                        ActivityCompat
+                                                .requestPermissions(this,
+                                                new String[] { Manifest.permission.CALL_PHONE},
+                                                REQUEST_CODE))
+                                .create()
+                                .show();
+
+                    } else {
+
+                        new AlertDialog.Builder(this)
                                 .setMessage("该功能需要访问电话的权限，不开启将无法正常工作！")
                                 .setPositiveButton("确定", (dialog, which) -> {
 
                                 })
-                                .create();
-
-                        alertDialog.show();
+                                .create()
+                                .show();
                     }
                 }
 
